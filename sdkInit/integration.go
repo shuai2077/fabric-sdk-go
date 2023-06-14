@@ -38,6 +38,7 @@ func DiscoverLocalPeers(ctxProvider contextAPI.ClientProvider, expectedPeers int
 
 	return discoveredPeers.([]fabAPI.Peer), nil
 }
+
 func (t *SdkEnvInfo) InitService(chaincodeID, channelID string, org *OrgInfo, sdk *fabsdk.FabricSDK) error {
 	handler := &SdkEnvInfo{
 		ChaincodeID: chaincodeID,
@@ -69,6 +70,7 @@ func regitserEvent(client *event.Client, chaincodeID string) (fabAPI.Registratio
 
 	return reg, notifier
 }
+
 func ChainCodeEventListener(c *event.Client, ccID string) fabAPI.Registration {
 
 	reg, notifier := regitserEvent(c, ccID)

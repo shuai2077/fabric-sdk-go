@@ -141,3 +141,16 @@ services:
       - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
     networks:
       - test
+
+  ipfs_host:
+    container_name: ipfs_host
+    image: ipfs/go-ipfs
+    ports:
+      - 4001:4001
+      - 8088:8088
+      - 5001:5001
+    volumes:
+      - ./ipfs:/export
+      - ./ipfs:/data/ipfs
+    networks:
+      - test

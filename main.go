@@ -3,8 +3,12 @@ package main
 import (
 	"fabric-sdk-go/sdkInit"
 	"fmt"
+	"io/ioutil"
 	"os"
+	"strings"
 	"time"
+
+	shell "github.com/ipfs/go-ipfs-api"
 )
 
 const (
@@ -99,7 +103,11 @@ func main() {
 	}
 	fmt.Println("<--- 添加信息　--->：", ret)
 
-	a = []string{"set", "ID3", "789"}
+	sh := shell.NewShell("localhost:5001")
+	cid, err := sh.Add(strings.NewReader("test"))
+	fmt.Println("<--- 哈希编号　--->：", cid)
+
+	a = []string{"set", "ID3", cid}
 	ret, err = App.Set(a)
 	if err != nil {
 		fmt.Println(err)
@@ -111,7 +119,17 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("<--- 查询信息　--->：", response)
+
+	content, err := sh.Cat(response)
+	if err != nil {
+		fmt.Println(err)
+	}
+	data, err := ioutil.ReadAll(content)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("<--- 查询信息　--->：", string(data))
 
 	time.Sleep(time.Second * 10)
 
